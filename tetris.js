@@ -11,10 +11,21 @@ tetris.drawPlayField = function(){
 }
 
 //need a variable to store current coordinates
-tetris.currentCoor = [{row:1,col:1},
-                      {row:1,col:2},
-                      {row:2,col:1},
-                      {row:2,col:2}];
+tetris.origin = {row:4,col:4};
+tetris.currentShape = 'L'
+tetris.currentCoor; //= [{row:1,col:1},
+                    //  {row:1,col:2},
+                    //  {row:2,col:1},
+                    //  {row:2,col:2}];
+
+tetris.shapeToCoor = function(shape,origin){
+  if(shape === 'L'){
+    return[{row:origin.row,col:origin.col},
+           {row:origin.row-1,col:origin.col},
+           {row:origin.row+1,col:origin.col},
+           {row:origin.row+1,col:origin.col+1}]
+  }
+}
 
 //fill cells according to specified coordinates
 tetris.fillCells = function(coordinates, fillColor){
