@@ -10,9 +10,19 @@ tetris.drawPlayField = function(){
   }
 }
 
+//fill cells according to specified coordinates
+tetris.fillCells = function(coordinates, fillColor){
+  for(var i=0;i<coordinates.length;i++){
+    var row = coordinates[i].row;
+    var col = coordinates[i].col;
+    var $coor = $('.'+row).find('#'+col);
+    $coor.attr('bgcolor',fillColor);
+    }
+}
+
 //need a variable to store current coordinates
-tetris.origin = {row:4,col:4};
-tetris.currentShape = 'L'
+tetris.origin = {row:5,col:5};
+tetris.currentShape = 'S'
 tetris.currentCoor; //= [{row:1,col:1},
                     //  {row:1,col:2},
                     //  {row:2,col:1},
@@ -25,17 +35,45 @@ tetris.shapeToCoor = function(shape,origin){
            {row:origin.row+1,col:origin.col},
            {row:origin.row+1,col:origin.col+1}]
   }
+  else if(shape === 'J'){
+    return[{row:origin.row,col:origin.col},
+           {row:origin.row-1,col:origin.col},
+           {row:origin.row+1,col:origin.col},
+           {row:origin.row+1,col:origin.col-1}]
+  }
+  else if(shape === 'I'){
+    return[{row:origin.row,col:origin.col},
+           {row:origin.row-1,col:origin.col},
+           {row:origin.row+1,col:origin.col},
+           {row:origin.row+2,col:origin.col}]
+  }
+  else if(shape === 'O'){
+    return[{row:origin.row,col:origin.col},
+           {row:origin.row-1,col:origin.col},
+           {row:origin.row,col:origin.col+1},
+           {row:origin.row-1,col:origin.col+1}]
+  }
+  else if(shape === 'T'){
+    return[{row:origin.row,col:origin.col},
+           {row:origin.row-1,col:origin.col},
+           {row:origin.row,col:origin.col+1},
+           {row:origin.row,col:origin.col-1}]
+  }
+  else if(shape === 'S'){
+    return[{row:origin.row,col:origin.col},
+           {row:origin.row-1,col:origin.col},
+           {row:origin.row,col:origin.col-1},
+           {row:origin.row-1,col:origin.col+1}]
+  }
+  else if(shape === 'Z'){
+    return[{row:origin.row,col:origin.col},
+           {row:origin.row,col:origin.col-1},
+           {row:origin.row+1,col:origin.col},
+           {row:origin.row+1,col:origin.col+1}]
+  }
 }
 
-//fill cells according to specified coordinates
-tetris.fillCells = function(coordinates, fillColor){
-  for(var i=0;i<coordinates.length;i++){
-    var row = coordinates[i].row;
-    var col = coordinates[i].col;
-    var $coor = $('.'+row).find('#'+col);
-    $coor.attr('bgcolor',fillColor);
-    }
-}
+tetris.currentCoor = tetris.shapeToCoor(tetris.currentShape,tetris.origin);
 
 //moves by changing currentCoor based on directional input
 tetris.move = function(direction){
