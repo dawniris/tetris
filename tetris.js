@@ -132,6 +132,9 @@ $(document).keydown(function(m){
     tetris.move('right')
   } else if (m.keyCode === 37){
     tetris.move('left')
+    //figure out rotation yo
+  } else if (m.keyCode === 38){
+    tetris.rotate();
   }
 })
 
