@@ -35,6 +35,13 @@ tetris.shapeToCoor = function(shape,origin){
            {row:origin.row+1,col:origin.col},
            {row:origin.row+1,col:origin.col+1}]
   }
+  else if (shape === 'L90'){
+    return [{row:origin.row,col:origin.col},
+            {row:origin.row,col:origin.col+1},
+            {row:origin.row,col:origin.col-1},
+            {row:origin.row,col:origin.col-1}]
+  }
+  //continue writing the fucking transformations, goddamnit
   else if(shape === 'J'){
     return[{row:origin.row,col:origin.col},
            {row:origin.row-1,col:origin.col},
@@ -103,7 +110,16 @@ tetris.move = function(direction){
   }
 }
 
-
+tetris.rotate = function(){
+  this.fillCells(this.currentCoor, '');
+  if(this.currentShape === 'L'){
+    this.currentShape = 'L90';
+  } else if(this.currentShape === 'L90'){
+    this.currentShape === 'L'
+  }
+this.currentCoor = this.shapeToCoor(this.currentShape,this.origin);
+this.fillCells(this.currentCoor, 'yellow');
+}
 
 $(document).ready(function(){
   tetris.drawPlayField();
