@@ -22,7 +22,7 @@ tetris.fillCells = function(coordinates, fillColor){
 
 //need a variable to store current coordinates
 tetris.origin = {row:5,col:5};
-tetris.currentShape = 'L'
+tetris.currentShape = 'I'
 tetris.currentCoor; //= [{row:1,col:1},
                     //  {row:1,col:2},
                     //  {row:2,col:1},
@@ -41,13 +41,13 @@ tetris.shapeToCoor = function(shape,origin){
             {row:origin.row,col:origin.col-1},
             {row:origin.row+1,col:origin.col-1}]
   }
-  //L180 may need rotational tweaking
   else if(shape === 'L180'){
     return[{row:origin.row,col:origin.col},
            {row:origin.row+1,col:origin.col},
            {row:origin.row-1,col:origin.col},
            {row:origin.row-1,col:origin.col-1}]
   }
+  //NEEDS TWEAKING FUCK
   else if(shape === 'L270'){
     return[{row:origin.row,col:origin.col},
            {row:origin.row-1,col:origin.col},
@@ -60,6 +60,7 @@ tetris.shapeToCoor = function(shape,origin){
            {row:origin.row+1,col:origin.col},
            {row:origin.row+1,col:origin.col-1}]
   }
+  //DIDN'T USE THE MIDDLE TILE FOR THE ORIGIN YOU ASS
  else if(shape === 'J90'){
     return[{row:origin.row,col:origin.col},
            {row:origin.row-1,col:origin.col},
@@ -85,6 +86,12 @@ tetris.shapeToCoor = function(shape,origin){
            {row:origin.row+1,col:origin.col},
            {row:origin.row+2,col:origin.col}]
   }
+  else if(shape === 'I90'){
+    return[{row:origin.row,col:origin.col},
+           {row:origin.row,col:origin.col-1},
+           {row:origin.row,col:origin.col+1},
+           {row:origin.row,col:origin.col+2}]
+  }
   else if(shape === 'O'){
     return[{row:origin.row,col:origin.col},
            {row:origin.row-1,col:origin.col},
@@ -97,16 +104,46 @@ tetris.shapeToCoor = function(shape,origin){
            {row:origin.row,col:origin.col+1},
            {row:origin.row,col:origin.col-1}]
   }
+  else if(shape === 'T90'){
+    return[{row:origin.row,col:origin.col},
+           {row:origin.row-1,col:origin.col},
+           {row:origin.row+1,col:origin.col},
+           {row:origin.row,col:origin.col+1}]
+  }
+  else if(shape === 'T180'){
+    return[{row:origin.row,col:origin.col},
+           {row:origin.row-1,col:origin.col},
+           {row:origin.row,col:origin.col+1},
+           {row:origin.row,col:origin.col-1}]
+  }
+  else if(shape === 'T270'){
+    return[{row:origin.row,col:origin.col},
+           {row:origin.row-1,col:origin.col},
+           {row:origin.row+1,col:origin.col},
+           {row:origin.row,col:origin.col-1}]
+  }
   else if(shape === 'S'){
     return[{row:origin.row,col:origin.col},
            {row:origin.row-1,col:origin.col},
            {row:origin.row,col:origin.col-1},
            {row:origin.row-1,col:origin.col+1}]
   }
+  else if(shape === 'S90'){
+    return[{row:origin.row,col:origin.col},
+           {row:origin.row-1,col:origin.col},
+           {row:origin.row,col:origin.col+1},
+           {row:origin.row+1,col:origin.col-1}]
+  }
   else if(shape === 'Z'){
     return[{row:origin.row,col:origin.col},
            {row:origin.row,col:origin.col-1},
            {row:origin.row+1,col:origin.col},
+           {row:origin.row+1,col:origin.col+1}]
+  }
+  else if(shape === 'Z90'){
+    return[{row:origin.row,col:origin.col},
+           {row:origin.row,col:origin.col+1},
+           {row:origin.row-1,col:origin.col},
            {row:origin.row+1,col:origin.col+1}]
   }
 }
@@ -132,7 +169,7 @@ tetris.move = function(direction){
     }
   }
 
-  this.fillCells(this.currentCoor,'yellow');
+  this.fillCells(this.currentCoor,'purple');
 
   if(reverse && direction === 'left'){
     this.move('right');
@@ -143,18 +180,35 @@ tetris.move = function(direction){
 
 tetris.rotate = function(){
   this.fillCells(this.currentCoor, '');
-  if(this.currentShape === 'L'){
-    this.currentShape = 'L90';
-  } else if(this.currentShape === 'L90'){
-    this.currentShape === 'L'
+  fuck = this.currentShape;
+  shape = fuck.substr(0,1);
+  orientation = Number(fuck.substr(1,3));
+
+  if (shape === 'O'){
+    return
   }
-this.currentCoor = this.shapeToCoor(this.currentShape,this.origin);
-this.fillCells(this.currentCoor, 'yellow');
+
+  if (orientation === 270){
+    newOrientation = '';
+  } else {
+    if (shape != 'I'){
+      newOrientation = orientation + 90;
+    } else {
+      newOrientation = orientation ? '' : 90
+    }
+
+  }
+
+  this.currentShape = shape + newOrientation
+  console.log(this.currentShape)
+
+  this.currentCoor = this.shapeToCoor(this.currentShape,this.origin);
+  this.fillCells(this.currentCoor, 'purple');
 }
 
 $(document).ready(function(){
   tetris.drawPlayField();
-  tetris.fillCells(tetris.currentCoor, 'yellow')
+  tetris.fillCells(tetris.currentCoor, 'purple')
 })
 
 $(document).keydown(function(m){
