@@ -22,7 +22,7 @@ tetris.fillCells = function(coordinates, fillColor){
 
 //need a variable to store current coordinates
 tetris.origin = {row:5,col:5};
-tetris.currentShape = 'S'
+tetris.currentShape = 'L'
 tetris.currentCoor; //= [{row:1,col:1},
                     //  {row:1,col:2},
                     //  {row:2,col:1},
@@ -39,14 +39,45 @@ tetris.shapeToCoor = function(shape,origin){
     return [{row:origin.row,col:origin.col},
             {row:origin.row,col:origin.col+1},
             {row:origin.row,col:origin.col-1},
-            {row:origin.row,col:origin.col-1}]
+            {row:origin.row+1,col:origin.col-1}]
   }
-  //continue writing the fucking transformations, goddamnit
+  //L180 may need rotational tweaking
+  else if(shape === 'L180'){
+    return[{row:origin.row,col:origin.col},
+           {row:origin.row+1,col:origin.col},
+           {row:origin.row-1,col:origin.col},
+           {row:origin.row-1,col:origin.col-1}]
+  }
+  else if(shape === 'L270'){
+    return[{row:origin.row,col:origin.col},
+           {row:origin.row-1,col:origin.col},
+           {row:origin.row,col:origin.col-1},
+           {row:origin.row,col:origin.col-2}]
+  }
   else if(shape === 'J'){
     return[{row:origin.row,col:origin.col},
            {row:origin.row-1,col:origin.col},
            {row:origin.row+1,col:origin.col},
            {row:origin.row+1,col:origin.col-1}]
+  }
+ else if(shape === 'J90'){
+    return[{row:origin.row,col:origin.col},
+           {row:origin.row-1,col:origin.col},
+           {row:origin.row,col:origin.col+1},
+           {row:origin.row,col:origin.col+2}]
+  }
+  else if(shape === 'J180'){
+    return[{row:origin.row,col:origin.col},
+           {row:origin.row,col:origin.col+1},
+           {row:origin.row+1,col:origin.col},
+           {row:origin.row+2,col:origin.col}]
+  }
+  // may need rot. tweaking
+  else if(shape === 'J270'){
+    return[{row:origin.row,col:origin.col},
+           {row:origin.row-1,col:origin.col},
+           {row:origin.row,col:origin.col-1},
+           {row:origin.row,col:origin.col-2}]
   }
   else if(shape === 'I'){
     return[{row:origin.row,col:origin.col},
