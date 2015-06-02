@@ -217,6 +217,29 @@ tetris.rotate = function(){
   this.fillCells(this.currentCoor, 'purple');
 }
 
+tetris.drop = function(){
+  var reverse = false;
+
+  this.fillCells(this.currentCoor,'');
+  this.origin.row++;
+
+  for (var i=0;<this.currentCoor.length;i++){
+    this.currentCoor[i].row++;
+    if(this.currentCoor[i].row>21){
+      reverse = true;
+    }
+  }
+
+  if(reverse){
+    // for (var i=0;i){
+      //the fuck was that shit, guy
+    for (var i=0<this.currentCoor.length;i++){
+      this.currentCoor[1].row--;
+    }
+  this.origin.row--;
+  }
+  this.fillCells(this.currentCoor, 'purple');
+}
 
 $(document).ready(function(){
   tetris.drawPlayField();
@@ -233,6 +256,13 @@ $(document).keydown(function(m){
     //figure out rotation yo
   } else if (m.keyCode === 38){
     tetris.rotate();
+  } else if (m.keyCode === 40){
+    tetris.drop();
   }
+
+  var gravity = setInterval(function(){
+    tetris.drop();
+    },500);
+
 })
 
