@@ -22,11 +22,8 @@ tetris.fillCells = function(coordinates, fillColor){
 
 //need a variable to store current coordinates
 tetris.origin = {row:5,col:5};
-tetris.currentShape = 'I'
-tetris.currentCoor; //= [{row:1,col:1},
-                    //  {row:1,col:2},
-                    //  {row:2,col:1},
-                    //  {row:2,col:2}];
+tetris.currentShape = 'L'
+tetris.currentCoor;
 
 tetris.shapeToCoor = function(shape,origin){
   if(shape === 'L'){
@@ -47,12 +44,11 @@ tetris.shapeToCoor = function(shape,origin){
            {row:origin.row-1,col:origin.col},
            {row:origin.row-1,col:origin.col-1}]
   }
-  //NEEDS TWEAKING FUCK
   else if(shape === 'L270'){
     return[{row:origin.row,col:origin.col},
-           {row:origin.row-1,col:origin.col},
            {row:origin.row,col:origin.col-1},
-           {row:origin.row,col:origin.col-2}]
+           {row:origin.row-1,col:origin.col+1},
+           {row:origin.row,col:origin.col+1}]
   }
   else if(shape === 'J'){
     return[{row:origin.row,col:origin.col},
@@ -169,6 +165,13 @@ tetris.move = function(direction){
     }
   }
 
+  //move origin
+  if(direction === 'right'){
+    this.origin.col++;
+  } else if (direction === 'left'){
+    this.origin.col--;
+  }
+
   this.fillCells(this.currentCoor,'purple');
 
   if(reverse && direction === 'left'){
@@ -206,10 +209,12 @@ tetris.rotate = function(){
   this.fillCells(this.currentCoor, 'purple');
 }
 
+
 $(document).ready(function(){
   tetris.drawPlayField();
   tetris.fillCells(tetris.currentCoor, 'purple')
 })
+
 
 $(document).keydown(function(m){
   console.log(m.keyCode);
