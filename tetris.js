@@ -203,7 +203,19 @@ tetris.rotate = function(){
   }
 
   this.currentShape = shape + newOrientation
-  console.log(this.currentShape)
+  // console.log(this.currentShape)
+
+  var lastShape = this.currentShape
+
+  //feels like there's some nonsense wherein lastShape is getting set
+  // to this.currentShape before executing the 'Is it out of bounds?' logic.
+
+
+  for(var i=0;i<this.currentCoor.length;i++){
+    if(this.currentCoor[i].col>9 || this.currentCoor[i].col<0){
+      this.currentShape = lastShape;
+    }
+  }
 
   this.currentCoor = this.shapeToCoor(this.currentShape,this.origin);
   this.fillCells(this.currentCoor, 'purple');
