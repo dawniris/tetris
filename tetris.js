@@ -155,12 +155,12 @@ tetris.move = function(direction){
     if(direction === 'right'){
       this.currentCoor[i].col++;
       if(this.currentCoor[i].col>9){
-        reverse = true
+        reverse = true;
       }
     } else if (direction === 'left'){
       this.currentCoor[i].col--;
       if(this.currentCoor[i].col<0){
-        reverse = true
+        reverse = true;
       }
     }
   }
@@ -222,7 +222,10 @@ tetris.drop = function(){
 
   this.fillCells(this.currentCoor,'');
   this.origin.row++;
+
+
 //shit after
+//tried putting semicls after 'var i=0;' didn't help.
   for (var i=0;<this.currentCoor.length;i++){
     this.currentCoor[i].row++;
     if(this.currentCoor[i].row>21){
@@ -233,12 +236,14 @@ tetris.drop = function(){
   if(reverse){
     // for (var i=0;i){
       //the fuck was that shit, guy
-    for (var i=0<this.currentCoor.length;i++){
+    for (var i=0;<this.currentCoor.length;i++){
       this.currentCoor[i].row--;
     }
   this.origin.row--;
   }
 //shit before
+
+
   this.fillCells(this.currentCoor, 'purple');
 }
 
