@@ -222,7 +222,7 @@ tetris.drop = function(){
 
   this.fillCells(this.currentCoor,'');
   this.origin.row++;
-
+//shit after
   for (var i=0;<this.currentCoor.length;i++){
     this.currentCoor[i].row++;
     if(this.currentCoor[i].row>21){
@@ -234,10 +234,11 @@ tetris.drop = function(){
     // for (var i=0;i){
       //the fuck was that shit, guy
     for (var i=0<this.currentCoor.length;i++){
-      this.currentCoor[1].row--;
+      this.currentCoor[i].row--;
     }
   this.origin.row--;
   }
+//shit before
   this.fillCells(this.currentCoor, 'purple');
 }
 
