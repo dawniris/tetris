@@ -21,7 +21,7 @@ tetris.fillCells = function(coordinates, fillColor){
 }
 
 //need a variable to store current coordinates
-tetris.origin = {row:5,col:5};
+tetris.origin = {row:0,col:5};
 tetris.currentShape = 'L'
 tetris.currentCoor;
 
@@ -211,6 +211,9 @@ tetris.rotate = function(){
     if(this.currentCoor[i].col>9 || this.currentCoor[i].col<0){
       this.currentShape = lastShape;
     }
+    if(this.currentCoor[i].row>21){
+      this.currentShape = lastShape;
+    }
   }
 
   this.currentCoor = this.shapeToCoor(this.currentShape,this.origin);
@@ -242,9 +245,13 @@ tetris.drop = function(){
 
 $(document).ready(function(){
   tetris.drawPlayField();
-  tetris.fillCells(tetris.currentCoor, 'purple')
+  tetris.fillCells(tetris.currentCoor, 'purple');
+  tetris.gravity();
 })
 
+tetris.gravity = setInterval(function(){
+    tetris.drop();
+},500);
 
 $(document).keydown(function(m){
   console.log(m.keyCode);
@@ -257,10 +264,6 @@ $(document).keydown(function(m){
   } else if (m.keyCode === 40){
     tetris.drop();
   }
-
-  var gravity = setInterval(function(){
-    tetris.drop();
-    },500);
 
 })
 
