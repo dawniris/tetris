@@ -108,7 +108,7 @@ tetris.drop = function(){
   var reverse = false;
   shape = this.currentShape
 
-  this.fillCells(this.currentCoor,'');
+  this.fillCells(this.currentCoor,'black');
   this.origin.row++;
 
   for (var i=0;i<this.currentCoor.length;i++){
