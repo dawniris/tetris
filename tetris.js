@@ -20,9 +20,13 @@ tetris.fillCells = function(coordinates, fillColor){
     }
 }
 
+var getSomeShapes = [
+  'L','J','S','O','T','Z','I'
+  ]
+
 //need a variable to store current coordinates
-tetris.origin = {row:0,col:5};
-tetris.currentShape = 'L'
+tetris.origin = {row:-2,col:Math.floor(Math.random()*9)};
+tetris.currentShape = getSomeShapes[Math.floor(Math.random()*getSomeShapes.length)];
 tetris.currentCoor;
 
 tetris.shapeToCoor = function(shape,origin){
@@ -148,7 +152,7 @@ tetris.currentCoor = tetris.shapeToCoor(tetris.currentShape,tetris.origin);
 
 //moves by changing currentCoor based on directional input
 tetris.move = function(direction){
-  var reverse = false
+  var reverse
   this.fillCells(this.currentCoor,'');
 
   for(var i=0;i<this.currentCoor.length;i++){
