@@ -1,5 +1,5 @@
 var tetris = {};
-
+//ASSIGN RANDOM COLORS TO SHAPES YESSSS
 //Draw 10x22 grid
 tetris.drawPlayField = function(){
   for(var row=0;row<22;row++){
