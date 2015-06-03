@@ -22,137 +22,17 @@ tetris.fillCells = function(coordinates, fillColor){
 
 var getSomeShapes = [
   'L','J','S','O','T','Z','I'
-  ]
+]
 
 //need a variable to store current coordinates
 tetris.origin = {row:-2,col:Math.floor(Math.random()*9)};
-tetris.currentShape = getSomeShapes[Math.floor(Math.random()*getSomeShapes.length)];
-tetris.currentCoor;
-
-tetris.shapeToCoor = function(shape,origin){
-  if(shape === 'L'){
-    return[{row:origin.row,col:origin.col},
-           {row:origin.row-1,col:origin.col},
-           {row:origin.row+1,col:origin.col},
-           {row:origin.row+1,col:origin.col+1}]
-  }
-  else if (shape === 'L90'){
-    return [{row:origin.row,col:origin.col},
-            {row:origin.row,col:origin.col+1},
-            {row:origin.row,col:origin.col-1},
-            {row:origin.row+1,col:origin.col-1}]
-  }
-  else if(shape === 'L180'){
-    return[{row:origin.row,col:origin.col},
-           {row:origin.row+1,col:origin.col},
-           {row:origin.row-1,col:origin.col},
-           {row:origin.row-1,col:origin.col-1}]
-  }
-  else if(shape === 'L270'){
-    return[{row:origin.row,col:origin.col},
-           {row:origin.row,col:origin.col-1},
-           {row:origin.row-1,col:origin.col+1},
-           {row:origin.row,col:origin.col+1}]
-  }
-  else if(shape === 'J'){
-    return[{row:origin.row,col:origin.col},
-           {row:origin.row-1,col:origin.col},
-           {row:origin.row+1,col:origin.col},
-           {row:origin.row+1,col:origin.col-1}]
-  }
-  //DIDN'T USE THE MIDDLE TILE FOR THE ORIGIN YOU ASS
- else if(shape === 'J90'){
-    return[{row:origin.row,col:origin.col},
-           {row:origin.row-1,col:origin.col},
-           {row:origin.row,col:origin.col+1},
-           {row:origin.row,col:origin.col+2}]
-  }
-  else if(shape === 'J180'){
-    return[{row:origin.row,col:origin.col},
-           {row:origin.row,col:origin.col+1},
-           {row:origin.row+1,col:origin.col},
-           {row:origin.row+2,col:origin.col}]
-  }
-  // may need rot. tweaking
-  else if(shape === 'J270'){
-    return[{row:origin.row,col:origin.col},
-           {row:origin.row-1,col:origin.col},
-           {row:origin.row,col:origin.col-1},
-           {row:origin.row,col:origin.col-2}]
-  }
-  else if(shape === 'I'){
-    return[{row:origin.row,col:origin.col},
-           {row:origin.row-1,col:origin.col},
-           {row:origin.row+1,col:origin.col},
-           {row:origin.row+2,col:origin.col}]
-  }
-  else if(shape === 'I90'){
-    return[{row:origin.row,col:origin.col},
-           {row:origin.row,col:origin.col-1},
-           {row:origin.row,col:origin.col+1},
-           {row:origin.row,col:origin.col+2}]
-  }
-  else if(shape === 'O'){
-    return[{row:origin.row,col:origin.col},
-           {row:origin.row-1,col:origin.col},
-           {row:origin.row,col:origin.col+1},
-           {row:origin.row-1,col:origin.col+1}]
-  }
-  else if(shape === 'T'){
-    return[{row:origin.row,col:origin.col},
-           {row:origin.row-1,col:origin.col},
-           {row:origin.row,col:origin.col+1},
-           {row:origin.row,col:origin.col-1}]
-  }
-  else if(shape === 'T90'){
-    return[{row:origin.row,col:origin.col},
-           {row:origin.row-1,col:origin.col},
-           {row:origin.row+1,col:origin.col},
-           {row:origin.row,col:origin.col+1}]
-  }
-  else if(shape === 'T180'){
-    return[{row:origin.row,col:origin.col},
-           {row:origin.row-1,col:origin.col},
-           {row:origin.row,col:origin.col+1},
-           {row:origin.row,col:origin.col-1}]
-  }
-  else if(shape === 'T270'){
-    return[{row:origin.row,col:origin.col},
-           {row:origin.row-1,col:origin.col},
-           {row:origin.row+1,col:origin.col},
-           {row:origin.row,col:origin.col-1}]
-  }
-  else if(shape === 'S'){
-    return[{row:origin.row,col:origin.col},
-           {row:origin.row-1,col:origin.col},
-           {row:origin.row,col:origin.col-1},
-           {row:origin.row-1,col:origin.col+1}]
-  }
-  else if(shape === 'S90'){
-    return[{row:origin.row,col:origin.col},
-           {row:origin.row-1,col:origin.col},
-           {row:origin.row,col:origin.col+1},
-           {row:origin.row+1,col:origin.col-1}]
-  }
-  else if(shape === 'Z'){
-    return[{row:origin.row,col:origin.col},
-           {row:origin.row,col:origin.col-1},
-           {row:origin.row+1,col:origin.col},
-           {row:origin.row+1,col:origin.col+1}]
-  }
-  else if(shape === 'Z90'){
-    return[{row:origin.row,col:origin.col},
-           {row:origin.row,col:origin.col+1},
-           {row:origin.row-1,col:origin.col},
-           {row:origin.row+1,col:origin.col+1}]
-  }
-}
-
-tetris.currentCoor = tetris.shapeToCoor(tetris.currentShape,tetris.origin);
+tetris.currentShape = new Shape(getSomeShapes[Math.floor(Math.random()*getSomeShapes.length)]);
+tetris.currentCoor = tetris.currentShape.shapeToCoor(tetris.origin);
 
 //moves by changing currentCoor based on directional input
 tetris.move = function(direction){
   var reverse
+  shape = this.currentShape
   this.fillCells(this.currentCoor,'');
 
   for(var i=0;i<this.currentCoor.length;i++){
@@ -176,7 +56,7 @@ tetris.move = function(direction){
     this.origin.col--;
   }
 
-  this.fillCells(this.currentCoor,'purple');
+  this.fillCells(this.currentCoor,this.currentShape.color);
 
   if(reverse && direction === 'left'){
     this.move('right');
@@ -221,11 +101,12 @@ tetris.rotate = function(){
   }
 
   this.currentCoor = this.shapeToCoor(this.currentShape,this.origin);
-  this.fillCells(this.currentCoor, 'purple');
+  this.fillCells(this.currentCoor,this.currentShape.color);
 }
 
 tetris.drop = function(){
   var reverse = false;
+  shape = this.currentShape
 
   this.fillCells(this.currentCoor,'');
   this.origin.row++;
@@ -242,32 +123,34 @@ tetris.drop = function(){
       this.currentCoor[i].row--;
     }
     this.origin.row--;
+    this.currentShape.stopMoving = true;
   }
 
-  this.fillCells(this.currentCoor, 'purple');
+  this.fillCells(this.currentCoor,this.currentShape.color);
 }
 
 $(document).ready(function(){
+  shape = tetris.currentShape
   tetris.drawPlayField();
-  tetris.fillCells(tetris.currentCoor, 'purple');
-  tetris.gravity();
+  tetris.fillCells(tetris.currentCoor,tetris.currentShape.color);
+  setInterval(function(){tetris.drop()},500);
 })
-
-tetris.gravity = setInterval(function(){
-    tetris.drop();
-},500);
 
 $(document).keydown(function(m){
   console.log(m.keyCode);
-  if(m.keyCode === 39){
-    tetris.move('right')
-  } else if (m.keyCode === 37){
-    tetris.move('left')
-  } else if (m.keyCode === 38){
-    tetris.rotate();
-  } else if (m.keyCode === 40){
-    tetris.drop();
-  }
 
+  shape = tetris.currentShape
+
+  if(!shape.stopMoving){
+    if(m.keyCode === 39){
+      tetris.move('right')
+    } else if (m.keyCode === 37){
+      tetris.move('left')
+    } else if (m.keyCode === 38){
+      tetris.rotate();
+    } else if (m.keyCode === 40){
+      tetris.drop();
+    }
+  }
 })
 
